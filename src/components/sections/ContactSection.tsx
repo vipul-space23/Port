@@ -1,139 +1,57 @@
+'use client';
+
 import { ScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
-import { Github, Linkedin, Mail, MapPin, Code2, FileText, Send, MessageSquare } from 'lucide-react';
-
-interface ContactLink {
-  icon: React.ElementType;
-  label: string;
-  value: string;
-  href: string | null;
-  color: string;
-}
+import { Send, Coffee, ArrowUpRight } from 'lucide-react';
 
 const ContactSection = () => {
-  const contacts: ContactLink[] = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'vipulpatil2500@gmail.com',
-      href: 'mailto:vipulpatil2500@gmail.com',
-      color: 'text-red-400',
-    },
-    {
-      icon: Linkedin,
-      label: 'LinkedIn',
-      value: '/in/vipulpatil',
-      href: 'https://linkedin.com/in/vipul-space',
-      color: 'text-blue-500',
-    },
-    {
-      icon: Github,
-      label: 'GitHub',
-      value: '/vipulpatil',
-      href: 'https://github.com/vipul-space23',
-      color: 'text-foreground',
-    },
-    {
-      icon: Code2,
-      label: 'LeetCode',
-      value: '/vipulpatil',
-      href: 'https://leetcode.com/u/vipul002/',
-      color: 'text-yellow-500',
-    },
-    {
-      icon: MapPin,
-      label: 'Location',
-      value: 'Mumbai, India',
-      href: null,
-      color: 'text-green-400',
-    },
-  ];
-
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center mb-16">
-              <p className="font-mono text-primary text-sm mb-2 tracking-wider">{'// GET IN TOUCH'}</p>
-              <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6">
-                Let's Build <span className="gradient-text">Something Great</span>
-              </h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Whether you have an exciting project, a job opportunity, or just want to 
-                chat about technology—I'd love to hear from you.
-              </p>
-            </div>
-          </ScrollReveal>
+    <section id="contact" className="py-32 relative overflow-hidden">
+      
+      {/* Background Decor */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -z-10" />
 
-          {/* Contact Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-            {contacts.map((contact, index) => (
-              <ScrollReveal key={contact.label} delay={index * 50}>
-                <div className="glass rounded-xl p-5 hover:border-primary/50 hover:box-glow transition-all duration-300 group h-full">
-                  {contact.href ? (
-                    <a
-                      href={contact.href}
-                      target={contact.href.startsWith('http') ? '_blank' : undefined}
-                      rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="flex items-center gap-4"
-                    >
-                      <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center group-hover:bg-primary/20 group-hover:scale-110 transition-all">
-                        <contact.icon className={`h-5 w-5 ${contact.color}`} />
-                      </div>
-                      <div className="text-left flex-1 min-w-0">
-                        <p className="text-muted-foreground text-xs font-mono uppercase tracking-wider">
-                          {contact.label}
-                        </p>
-                        <p className="font-mono text-sm group-hover:text-primary transition-colors truncate">
-                          {contact.value}
-                        </p>
-                      </div>
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center">
-                        <contact.icon className={`h-5 w-5 ${contact.color}`} />
-                      </div>
-                      <div className="text-left">
-                        <p className="text-muted-foreground text-xs font-mono uppercase tracking-wider">
-                          {contact.label}
-                        </p>
-                        <p className="font-mono text-sm">{contact.value}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </ScrollReveal>
-            ))}
+      <div className="container mx-auto px-4 text-center">
+        <ScrollReveal>
+          <div className="max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              <span className="text-sm font-mono text-gray-300">Available for Opportunities</span>
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-mono font-bold mb-8 tracking-tight">
+              Let's Work <br />
+              <span className="gradient-text">Together</span>
+            </h2>
+
+            <p className="text-muted-foreground text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+              Have a project in mind or looking for a developer who actually understands 
+              <span className="text-primary"> business needs</span>? I'm just one email away.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Button variant="glow" size="lg" className="h-14 px-10 text-lg rounded-full" asChild>
+                <a href="mailto:vipulpatil2500@gmail.com">
+                  Say Hello <Send className="ml-2 w-5 h-5" />
+                </a>
+              </Button>
+              
+              <a 
+                href="https://linkedin.com/in/vipul-space"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-mono"
+              >
+                <Coffee className="w-5 h-5 group-hover:text-yellow-500 transition-colors" />
+                <span>Let's chat on LinkedIn</span>
+                <ArrowUpRight className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
           </div>
-
-          {/* CTA */}
-          <ScrollReveal delay={300}>
-            <div className="text-center">
-              <div className="glass rounded-xl p-8 inline-block">
-                <div className="flex items-center justify-center gap-2 mb-4">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  <h3 className="font-mono text-lg font-bold">Ready to collaborate?</h3>
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-4">
-                  <Button variant="glow" size="lg" asChild>
-                    <a href="mailto:vipulpatil2500@gmail.com">
-                      <Send className="h-5 w-5 mr-2" />
-                      Send Message
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="lg" asChild>
-                    <a href="/resume.pdf" download>
-                      <FileText className="h-5 w-5 mr-2" />
-                      Download CV
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

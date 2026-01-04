@@ -101,7 +101,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <span className="text-foreground group-hover:text-primary transition-colors">VP</span>
+          <span className="gradient-text group-hover:text-primary transition-colors">VP</span>
           <Sparkles className="h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity animate-pulse" />
         </motion.a>
 

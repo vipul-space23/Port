@@ -9,6 +9,7 @@ import ExperienceSection from '@/components/sections/ExperienceSection';
 import ContactSection from '@/components/sections/ContactSection';
 import StarOrbitBackground from '@/components/backgrounds/StarOrbitBackground';
 import MazeGame from '@/components/MazeGame';
+import AchievementsSection from '@/components/sections/AchievementsSection';
 
 const Index = () => {
   const [zenMode, setZenMode] = useState(false);
@@ -36,6 +37,7 @@ const Index = () => {
         <HeroSection />
         <AboutSection />
         <ProjectsSection />
+        <AchievementsSection />
         <CertificationsSection />
         <ExperienceSection />
         <ContactSection />
