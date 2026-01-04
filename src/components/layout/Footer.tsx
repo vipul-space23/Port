@@ -11,12 +11,12 @@ const Footer = () => {
           </div>
           
           <p className="font-mono text-xs text-muted-foreground text-center">
-            Built with <span className="text-primary">React</span> + <span className="text-primary">TypeScript</span> + <span className="text-primary">Tailwind</span>
+             <span className="text-primary">@vipul.space</span>  <span className="text-primary"></span>  <span className="text-primary"></span>
           </p>
           
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/vipulspace23"
+              href="https://github.com/vipul-space23"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"

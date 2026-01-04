@@ -1,12 +1,12 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { Button } from './ui/button';
-import { X } from 'lucide-react';
+import { X, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Hammer, Move } from 'lucide-react';
 
 interface MazeGameProps {
   onExit: () => void;
 }
 
-// MD5 implementation
+// --- MD5 implementation (Unchanged) ---
 const md5 = (string: string): string => {
   function md5cycle(x: number[], k: number[]) {
     let a = x[0], b = x[1], c = x[2], d = x[3];
@@ -159,6 +159,7 @@ const md5 = (string: string): string => {
 
   return hex(md51(string));
 };
+// -------------------------------------
 
 // Array helper functions
 const arrayEquals = (a: number[], b: number[]): boolean => {
@@ -180,8 +181,15 @@ const arrayIndexOf = (arr: number[][], thing: number[]): number => {
   return -1;
 };
 
+// Types
+type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
+
 const MazeGame = ({ onExit }: MazeGameProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  // Track "Edit Mode" for mobile controls (WASD vs Arrows)
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const gameStateRef = useRef({
     px: 0,
     py: 0,
@@ -200,6 +208,103 @@ const MazeGame = ({ onExit }: MazeGameProps) => {
   const poll = useCallback((x: number, y: number, seed: string = "Witty!", percentage: number = 40): boolean => {
     return (~"0123456789abcdef".substring(0, 16 * percentage / 100).indexOf(md5(x + " " + y + " " + seed)[0])) !== 0;
   }, []);
+
+  // --- CORE GAME LOGIC (Extracted from keyboard handler) ---
+  const processInput = useCallback((dir: Direction, isModification: boolean) => {
+    const state = gameStateRef.current;
+    
+    const moveUp = !isModification && dir === 'UP';
+    const moveLeft = !isModification && dir === 'LEFT';
+    const moveDown = !isModification && dir === 'DOWN';
+    const moveRight = !isModification && dir === 'RIGHT';
+
+    const invertUp = isModification && dir === 'UP';
+    const invertDown = isModification && dir === 'DOWN';
+    const invertLeft = isModification && dir === 'LEFT';
+    const invertRight = isModification && dir === 'RIGHT';
+
+    let IC: number[] = [];
+    let HAxis = false;
+
+    // --- Wall Modification Logic ---
+    if (invertUp) IC = [h / 2 - 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
+    if (invertDown) IC = [h / 2 + 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
+    if (invertLeft) IC = [w / 2 - 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
+    if (invertRight) IC = [w / 2 + 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
+
+    HAxis = invertUp || invertDown;
+    const direction = true;
+
+    if (IC.length > 0) {
+      let Wall: boolean;
+      let BWall: boolean;
+
+      if (HAxis) {
+        Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedH, IC);
+        BWall = (poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && direction) && !arrayContains(state.invertedH, IC);
+
+        if (Wall || state.wallCount > 0) {
+          if (arrayContains(state.invertedH, IC)) {
+            state.invertedH.splice(arrayIndexOf(state.invertedH, IC), 1);
+          } else if (!(BWall && !Wall)) {
+            state.invertedH.push(IC);
+          }
+        }
+      } else {
+        Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedV, IC);
+        BWall = (poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && direction) && !arrayContains(state.invertedV, IC);
+
+        if (Wall || state.wallCount > 0) {
+          if (arrayContains(state.invertedV, IC)) {
+            state.invertedV.splice(arrayIndexOf(state.invertedV, IC), 1);
+          } else if (!(BWall && !Wall)) {
+            state.invertedV.push(IC);
+          }
+        }
+      }
+
+      if (Wall) {
+        state.wallCount++;
+      } else if (state.wallCount && !(BWall && !Wall)) {
+        state.wallCount--;
+      }
+    }
+
+    // --- Movement Logic ---
+    IC = [];
+    if (moveUp) IC = [h / 2 - 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
+    else if (moveDown) IC = [h / 2 + 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
+    else if (moveLeft) IC = [w / 2 - 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
+    else if (moveRight) IC = [w / 2 + 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
+
+    const movementDirection = (moveRight || moveDown) ? !poll(IC[0], IC[1], ObstructionSeed + "wd", 50) : poll(IC[0], IC[1], ObstructionSeed + "wd", 50);
+    HAxis = moveUp || moveDown;
+
+    let Wall = false;
+    if (IC.length > 0) {
+      if (HAxis) {
+        Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedH, IC);
+        Wall = Wall || ((poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && movementDirection) && !arrayContains(state.invertedH, IC));
+      } else {
+        Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedV, IC);
+        Wall = Wall || ((poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && movementDirection) && !arrayContains(state.invertedV, IC));
+      }
+    }
+
+    if (moveUp && !Wall) {
+      state.py += 1;
+      state.oy = -30;
+    } else if (moveLeft && !Wall) {
+      state.px += 1;
+      state.ox = -30;
+    } else if (moveDown && !Wall) {
+      state.py -= 1;
+      state.oy = 30;
+    } else if (moveRight && !Wall) {
+      state.px -= 1;
+      state.ox = 30;
+    }
+  }, [poll]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -239,7 +344,7 @@ const MazeGame = ({ onExit }: MazeGameProps) => {
         for (let y = -(h % 30) - 15; y <= h; y += 30) {
           const alpha = Math.max(0, (255 - (Math.abs(x - w / 2) + Math.abs(y - h / 2))) / 255);
 
-          // Vertical walls - cyan/white instead of white
+          // Vertical walls
           if (poll(x - 30 * state.px, y - 30 * state.py, ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedV, [x - 30 * state.px, y - 30 * state.py])) {
             ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
             ctx.lineWidth = 2;
@@ -294,96 +399,14 @@ const MazeGame = ({ onExit }: MazeGameProps) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       e.preventDefault();
 
-      const moveUp = e.keyCode === 38;
-      const moveLeft = e.keyCode === 37;
-      const moveDown = e.keyCode === 40;
-      const moveRight = e.keyCode === 39;
-
-      const invertUp = e.key === 'W' || e.key === 'w';
-      const invertDown = e.key === 'S' || e.key === 's';
-      const invertLeft = e.key === 'A' || e.key === 'a';
-      const invertRight = e.key === 'D' || e.key === 'd';
-
-      let IC: number[] = [];
-      let HAxis = false;
-
-      if (invertUp) IC = [h / 2 - 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
-      if (invertDown) IC = [h / 2 + 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
-      if (invertLeft) IC = [w / 2 - 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
-      if (invertRight) IC = [w / 2 + 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
-
-      HAxis = invertUp || invertDown;
-      const direction = true;
-
-      if (IC.length > 0) {
-        let Wall: boolean;
-        let BWall: boolean;
-
-        if (HAxis) {
-          Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedH, IC);
-          BWall = (poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && direction) && !arrayContains(state.invertedH, IC);
-
-          if (Wall || state.wallCount > 0) {
-            if (arrayContains(state.invertedH, IC)) {
-              state.invertedH.splice(arrayIndexOf(state.invertedH, IC), 1);
-            } else if (!(BWall && !Wall)) {
-              state.invertedH.push(IC);
-            }
-          }
-        } else {
-          Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedV, IC);
-          BWall = (poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && direction) && !arrayContains(state.invertedV, IC);
-
-          if (Wall || state.wallCount > 0) {
-            if (arrayContains(state.invertedV, IC)) {
-              state.invertedV.splice(arrayIndexOf(state.invertedV, IC), 1);
-            } else if (!(BWall && !Wall)) {
-              state.invertedV.push(IC);
-            }
-          }
-        }
-
-        if (Wall) {
-          state.wallCount++;
-        } else if (state.wallCount && !(BWall && !Wall)) {
-          state.wallCount--;
-        }
-      }
-
-      // Movement
-      IC = [];
-      if (moveUp) IC = [h / 2 - 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
-      else if (moveDown) IC = [h / 2 + 15 - 30 * state.py, w / 2 - 15 - 30 * state.px];
-      else if (moveLeft) IC = [w / 2 - 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
-      else if (moveRight) IC = [w / 2 + 15 - 30 * state.px, h / 2 + 15 - 30 * state.py];
-
-      const movementDirection = (moveRight || moveDown) ? !poll(IC[0], IC[1], ObstructionSeed + "wd", 50) : poll(IC[0], IC[1], ObstructionSeed + "wd", 50);
-      HAxis = moveUp || moveDown;
-
-      let Wall = false;
-      if (IC.length > 0) {
-        if (HAxis) {
-          Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedH, IC);
-          Wall = Wall || ((poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && movementDirection) && !arrayContains(state.invertedH, IC));
-        } else {
-          Wall = poll(IC[0], IC[1], ObstructionSeed, ObstructionPercentage) !== arrayContains(state.invertedV, IC);
-          Wall = Wall || ((poll(IC[0], IC[1], ObstructionSeed + "w", ObstructionPercentage / 4) && movementDirection) && !arrayContains(state.invertedV, IC));
-        }
-      }
-
-      if (moveUp && !Wall) {
-        state.py += 1;
-        state.oy = -30;
-      } else if (moveLeft && !Wall) {
-        state.px += 1;
-        state.ox = -30;
-      } else if (moveDown && !Wall) {
-        state.py -= 1;
-        state.oy = 30;
-      } else if (moveRight && !Wall) {
-        state.px -= 1;
-        state.ox = 30;
-      }
+      if (e.keyCode === 38) processInput('UP', false);
+      else if (e.keyCode === 40) processInput('DOWN', false);
+      else if (e.keyCode === 37) processInput('LEFT', false);
+      else if (e.keyCode === 39) processInput('RIGHT', false);
+      else if (e.key === 'w' || e.key === 'W') processInput('UP', true);
+      else if (e.key === 's' || e.key === 'S') processInput('DOWN', true);
+      else if (e.key === 'a' || e.key === 'A') processInput('LEFT', true);
+      else if (e.key === 'd' || e.key === 'D') processInput('RIGHT', true);
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -393,35 +416,100 @@ const MazeGame = ({ onExit }: MazeGameProps) => {
       window.removeEventListener('keydown', handleKeyDown);
       cancelAnimationFrame(animationId);
     };
-  }, [poll]);
+  }, [poll, processInput]);
+
+  // Touch handlers
+  const handleTouch = (dir: Direction) => {
+    processInput(dir, isEditMode);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-4">
       <div className="absolute top-4 right-4">
         <Button variant="glow" size="icon" onClick={onExit}>
           <X className="h-5 w-5" />
         </Button>
       </div>
       
-      <div className="text-center mb-6">
-        <h2 className="font-mono text-2xl text-primary text-glow mb-2">ZEN MODE</h2>
-        <p className="text-muted-foreground font-mono text-sm">
+      <div className="text-center mb-4">
+        <h2 className="font-mono text-2xl text-primary text-glow mb-1">ZEN MODE</h2>
+        <p className="text-muted-foreground font-mono text-xs hidden sm:block">
           Arrow keys to move • WASD to modify walls
         </p>
       </div>
       
-      <div className="border border-primary/30 rounded-lg overflow-hidden box-glow">
+      {/* Canvas Container with Max Width and Aspect Ratio */}
+      <div className="border border-primary/30 rounded-lg overflow-hidden box-glow w-full max-w-[500px] aspect-square relative">
         <canvas 
           ref={canvasRef} 
           width={500} 
           height={500}
-          className="block"
+          className="block w-full h-full"
         />
       </div>
-      
-      <p className="text-muted-foreground font-mono text-xs mt-4">
-        Press ESC or click X to return
-      </p>
+
+      {/* Touch Controls (Visible on mobile/small screens) */}
+      <div className="mt-6 flex flex-col items-center gap-4 w-full max-w-[300px]">
+        
+        {/* Mode Toggle */}
+        <div className="flex items-center justify-center gap-2">
+           <span className={`text-xs font-mono ${!isEditMode ? 'text-cyan-400 font-bold' : 'text-gray-500'}`}>MOVE</span>
+           <button 
+             onClick={() => setIsEditMode(!isEditMode)}
+             className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${isEditMode ? 'bg-orange-500' : 'bg-cyan-500'}`}
+           >
+             <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${isEditMode ? 'left-7' : 'left-1'}`} />
+           </button>
+           <span className={`text-xs font-mono ${isEditMode ? 'text-orange-400 font-bold' : 'text-gray-500'}`}>BUILD</span>
+        </div>
+
+        {/* D-Pad */}
+        <div className="grid grid-cols-3 gap-2">
+          <div />
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className={`h-14 w-14 rounded-full ${isEditMode ? 'border-orange-500/50 hover:bg-orange-500/20 text-orange-400' : 'border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-400'}`}
+            onPointerDown={(e) => { e.preventDefault(); handleTouch('UP'); }}
+          >
+             {isEditMode ? <Hammer className="h-5 w-5 rotate-0" /> : <ArrowUp className="h-6 w-6" />}
+          </Button>
+          <div />
+
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className={`h-14 w-14 rounded-full ${isEditMode ? 'border-orange-500/50 hover:bg-orange-500/20 text-orange-400' : 'border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-400'}`}
+            onPointerDown={(e) => { e.preventDefault(); handleTouch('LEFT'); }}
+          >
+             {isEditMode ? <Hammer className="h-5 w-5 -rotate-90" /> : <ArrowLeft className="h-6 w-6" />}
+          </Button>
+          
+          <div className="flex items-center justify-center">
+            {isEditMode ? <Hammer className="h-4 w-4 text-orange-500/30" /> : <Move className="h-4 w-4 text-cyan-500/30" />}
+          </div>
+
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className={`h-14 w-14 rounded-full ${isEditMode ? 'border-orange-500/50 hover:bg-orange-500/20 text-orange-400' : 'border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-400'}`}
+            onPointerDown={(e) => { e.preventDefault(); handleTouch('RIGHT'); }}
+          >
+             {isEditMode ? <Hammer className="h-5 w-5 rotate-90" /> : <ArrowRight className="h-6 w-6" />}
+          </Button>
+
+          <div />
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className={`h-14 w-14 rounded-full ${isEditMode ? 'border-orange-500/50 hover:bg-orange-500/20 text-orange-400' : 'border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-400'}`}
+            onPointerDown={(e) => { e.preventDefault(); handleTouch('DOWN'); }}
+          >
+             {isEditMode ? <Hammer className="h-5 w-5 rotate-180" /> : <ArrowDown className="h-6 w-6" />}
+          </Button>
+          <div />
+        </div>
+      </div>
     </div>
   );
 };

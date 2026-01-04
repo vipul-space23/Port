@@ -13,7 +13,7 @@ const StarOrbitBackground = () => {
     let w = canvas.width = window.innerWidth;
     let h = canvas.height = window.innerHeight;
 
-    const hue = 217;
+    // const hue = 217; // CHANGE 0: This variable is no longer needed for color
     const maxStars = 1000;
     let count = 0;
     const stars: Star[] = [];
@@ -27,9 +27,11 @@ const StarOrbitBackground = () => {
     if (ctx2) {
       const half = canvas2.width / 2;
       const gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half);
-      gradient2.addColorStop(0.025, '#fff');
-      gradient2.addColorStop(0.1, `hsl(${hue}, 61%, 33%)`);
-      gradient2.addColorStop(0.25, `hsl(${hue}, 64%, 6%)`);
+      
+      // CHANGE 1: Update the star gradient colors to be white/grayscale
+      gradient2.addColorStop(0.025, '#FFFFFF'); // Pure White Center
+      gradient2.addColorStop(0.1, 'rgba(255, 255, 255, 0.4)'); // Whitish halo
+      gradient2.addColorStop(0.25, 'rgba(255, 255, 255, 0.05)'); // Very faint outer edge
       gradient2.addColorStop(1, 'transparent');
 
       ctx2.fillStyle = gradient2;
@@ -105,8 +107,10 @@ const StarOrbitBackground = () => {
 
     function animation() {
       ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = 0.8;
-      ctx.fillStyle = `hsla(${hue}, 64%, 6%, 1)`;
+      ctx.globalAlpha = 0.8; // Keeps the trails effect
+      
+      // CHANGE 2: Set the background fill style to pure black
+      ctx.fillStyle = '#000000'; 
       ctx.fillRect(0, 0, w, h);
 
       ctx.globalCompositeOperation = 'lighter';
@@ -144,7 +148,8 @@ const StarOrbitBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      // Ensure the canvas itself has a black background initially to avoid flashing
+      className="fixed inset-0 pointer-events-none z-0 bg-black"
     />
   );
 };
