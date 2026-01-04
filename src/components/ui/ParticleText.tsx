@@ -12,7 +12,7 @@ const ParticleText = ({ text, className }: ParticleTextProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current;   
     const container = containerRef.current;
     if (!canvas || !container) return;
 
