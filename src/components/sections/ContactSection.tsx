@@ -23,14 +23,14 @@ const ContactSection = () => {
       icon: Linkedin,
       label: 'LinkedIn',
       value: '/in/vipulpatil',
-      href: 'https://linkedin.com/in/vipulspace',
+      href: 'https://linkedin.com/in/vipul-space',
       color: 'text-blue-500',
     },
     {
       icon: Github,
       label: 'GitHub',
       value: '/vipulpatil',
-      href: 'https://github.com/vipulspace23',
+      href: 'https://github.com/vipul-space23',
       color: 'text-foreground',
     },
     {

@@ -24,7 +24,6 @@ const ProjectsSection = () => {
       highlights: [
         'Real-time speech analysis with accuracy metrics',
         'Sub-100ms latency video streaming via WebRTC',
-        'Containerized deployment with Docker',
       ],
     },
     {
@@ -39,17 +38,20 @@ const ProjectsSection = () => {
         'MetaMask wallet authentication',
       ],
     },
-    {
-      title: 'AWS Cloud Infrastructure',
-      subtitle: 'Enterprise-Grade Cloud Architecture',
-      description: 'Comprehensive cloud infrastructure project demonstrating proficiency in AWS services. Implemented scalable, highly available architecture following cloud best practices.',
-      tech: ['AWS EC2', 'S3', 'Lambda', 'VPC', 'CloudWatch', 'ALB'],
-      highlights: [
-        'Auto-scaling with load balancing',
-        'Serverless event-driven processing',
-        'IAM security with least-privilege access',
-      ],
-    },
+  {
+  title: 'Quiz Recommendation System',
+  subtitle: 'Personalized Learning with Machine Learning',
+  description: 'Adaptive quiz platform that recommends questions based on user performance and learning patterns. Machine learning is used to adjust difficulty levels and enhance learning outcomes.',
+  tech: ['Python', 'Streamlit', 'Scikit-learn', 'Docker'],
+  github: 'https://github.com/vipul-space23/Quiz-Recommendation-System',
+  highlights: [
+    'Personalized quiz recommendations using machine learning',
+    'Learner profiling with collaborative filtering',
+    'Interactive analytics dashboard with real-time insights',
+    'Docker-based containerized deployment for cross-platform use',
+  ],
+}
+,
     {
       title: 'Medical Store Management',
       subtitle: 'Comprehensive Inventory System',

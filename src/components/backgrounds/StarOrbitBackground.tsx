@@ -14,7 +14,7 @@ const StarOrbitBackground = () => {
     let h = canvas.height = window.innerHeight;
 
     // const hue = 217; // CHANGE 0: This variable is no longer needed for color
-    const maxStars = 1000;
+    const maxStars = 1400;
     let count = 0;
     const stars: Star[] = [];
 

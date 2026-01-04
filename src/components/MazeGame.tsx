@@ -434,8 +434,9 @@ const MazeGame = ({ onExit }: MazeGameProps) => {
       <div className="text-center mb-4">
         <h2 className="font-mono text-2xl text-primary text-glow mb-1">ZEN MODE</h2>
         <p className="text-muted-foreground font-mono text-xs hidden sm:block">
-          Arrow keys to move • WASD to modify walls
+          Arrow keys to move |ESC TO  EXIT 
         </p>
+       
       </div>
       
       {/* Canvas Container with Max Width and Aspect Ratio */}
