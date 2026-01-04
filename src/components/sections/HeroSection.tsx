@@ -1,56 +1,16 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
   Github, Linkedin, Mail, ChevronDown, FileText, Code2, 
+  // New DevOps Icons used in background
   Terminal, Cpu, Cloud, Server, Database, GitBranch, Container, Workflow 
 } from 'lucide-react';
 import { motion, useMotionValue } from 'framer-motion';
+import ParticleText from '@/components/ui/ParticleText';
 
-// --- 1. DECRYPT TEXT EFFECT ( Restored ) ---
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-
-const DecryptText = ({ text, className }: { text: string, className?: string }) => {
-  const [displayText, setDisplayText] = useState(text);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    let iteration = 0;
-    let interval: NodeJS.Timeout;
-
-    // Run animation on load AND on hover
-    const startScramble = () => {
-      clearInterval(interval);
-      interval = setInterval(() => {
-        setDisplayText(prev => 
-          text.split("").map((letter, index) => {
-            if (index < iteration) return text[index];
-            return letters[Math.floor(Math.random() * letters.length)];
-          }).join("")
-        );
-
-        if (iteration >= text.length) clearInterval(interval);
-        iteration += 1 / 3;
-      }, 30);
-    };
-
-    startScramble();
-    return () => clearInterval(interval);
-  }, [text, isHovered]);
-
-  return (
-    <span 
-      className={className}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {displayText}
-    </span>
-  );
-};
-
-// --- 2. MAGNETIC BUTTON COMPONENT ---
+// --- MAGNETIC BUTTON COMPONENT (Unchanged) ---
 const MagneticWrapper = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null);
   const position = { x: useMotionValue(0), y: useMotionValue(0) };
@@ -83,11 +43,13 @@ const MagneticWrapper = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// --- 3. BACKGROUND GRID ---
+// --- BACKGROUND GRID & DEVOPS ICONS ---
 const RetroGrid = () => {
+  // Configuration for floating icons
   const floatingIcons = [
     { Icon: Terminal, className: "top-1/4 left-[15%]", size: "w-24 h-24", duration: 5, animate: { y: [0, -20, 0], rotate: [0, 5, 0] } },
     { Icon: Cpu, className: "bottom-1/3 right-[20%]", size: "w-32 h-32", duration: 7, animate: { y: [0, 30, 0], rotate: [0, -10, 0] } },
+    // New DevOps Icons
     { Icon: Cloud, className: "top-[15%] right-[25%]", size: "w-20 h-20", duration: 8, animate: { x: [0, 20, 0], y: [0, -10, 0] } },
     { Icon: Server, className: "bottom-[20%] left-[10%]", size: "w-28 h-28", duration: 9, animate: { y: [0, -25, 0] } },
     { Icon: GitBranch, className: "top-[40%] left-[5%]", size: "w-16 h-16", duration: 6, animate: { rotate: [0, 15, 0], x: [0, 10, 0] } },
@@ -98,12 +60,16 @@ const RetroGrid = () => {
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+      {/* CSS Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      
+      {/* Floating DevOps Icons */}
       {floatingIcons.map(({ Icon, className, size, duration, animate }, index) => (
         <motion.div 
           key={index}
           animate={animate}
           transition={{ duration: duration, repeat: Infinity, ease: "easeInOut" }}
+          // Used opacity-5 (very subtle) and text-primary (your cyan color)
           className={`absolute opacity-5 text-primary ${className} ${size} blur-[1px]`}
         >
           <Icon className="w-full h-full" />
@@ -113,12 +79,13 @@ const RetroGrid = () => {
   );
 };
 
+
 // --- MAIN HERO SECTION ---
 const HeroSection = () => {
   return (
     <section id="home" className="min-h-screen flex flex-col items-center justify-center relative px-4 overflow-hidden">
       
-      {/* Animated Background */}
+      {/* Animated Background with new icons */}
       <RetroGrid />
       
       {/* Gradient Blob */}
@@ -141,14 +108,9 @@ const HeroSection = () => {
           <span className="text-xs font-mono text-gray-400">Open to Work</span>
         </motion.div>
         
-        {/* --- DECRYPT TEXT EFFECT (Restored) --- */}
-        <div className="mb-6 relative">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-mono font-bold tracking-tight">
-            <span className="text-foreground mr-4">I'm</span>
-            <span className="gradient-text text-glow cursor-pointer">
-              <DecryptText text="Vipul Patil" />
-            </span>
-          </h1>
+        {/* --- PARTICLE NAME EFFECT --- */}
+        <div className="mb-6 relative h-32 md:h-48 w-full">
+           <ParticleText text="VIPUL PATIL" className="h-full w-full" />
         </div>
         
         <motion.p 
@@ -167,6 +129,11 @@ const HeroSection = () => {
         <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
           
           <MagneticWrapper>
+            <a
+            href="https://drive.google.com/file/d/1c2KIXRB3oc__J_M2uiyTL8OBn7LHXEGa/view?usp=sharing"       // ✅ The correct path
+            download="Vipul_Patil_Resume.pdf"   // ✅ This forces download + sets the filename
+            className="flex items-center gap-2 px-6 py-3 bg-gray-900/50 border border-white/10 rounded-full hover:bg-green-500/10 hover:border-green-500/50 transition-all group backdrop-blur-sm"
+          ></a>
             <a
               href="https://leetcode.com/vipul002"
               target="_blank"
@@ -204,8 +171,8 @@ const HeroSection = () => {
           
           <MagneticWrapper>
             <a
-              href="/assets/resume-dev.pdf" // ✅ Fixed Resume Path
-              download="Vipul_Patil_Resume.pdf"
+              href="/resume.pdf"
+              download
               className="flex items-center gap-2 px-6 py-3 bg-gray-900/50 border border-white/10 rounded-full hover:bg-green-500/10 hover:border-green-500/50 transition-all group backdrop-blur-sm"
             >
               <FileText className="h-5 w-5 text-gray-400 group-hover:text-green-400 transition-colors" />
