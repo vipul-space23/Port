@@ -19,7 +19,7 @@ const CertificationsSection = () => {
       title: 'Hackhive 2025 Runner-up',
       description: 'Engineered an AI Research Assistant leveraging RAG architecture with Supabase pgvector embeddings, enabling context-aware analysis of research papers with voice-based semantic search.',
       type: 'Hackathon',
-      date: 'January 2025',
+      date: 'March 2025',
       color: 'text-yellow-500',
     },
     {
@@ -35,7 +35,7 @@ const CertificationsSection = () => {
       title: 'Tech GITS Committee',
       description: 'Active contributor to the college technical committee, organizing workshops and events focused on emerging technologies and fostering peer learning.',
       type: 'Leadership',
-      date: '2023 - Present',
+      date: '2024 - Present',
       color: 'text-blue-500',
     },
   ];
