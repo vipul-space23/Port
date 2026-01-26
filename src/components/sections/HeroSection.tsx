@@ -165,17 +165,7 @@ const HeroSection = () => {
         {/* --- MAGNETIC BUTTONS GRID --- */}
         <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
           
-          <MagneticWrapper>
-            <a
-              href="https://leetcode.com/vipul002"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 bg-gray-900/50 border border-white/10 rounded-full hover:bg-yellow-500/10 hover:border-yellow-500/50 transition-all group backdrop-blur-sm"
-            >
-              <Code2 className="h-5 w-5 text-gray-400 group-hover:text-yellow-500 transition-colors" />
-              <span className="font-mono text-sm text-gray-300 group-hover:text-yellow-500">LeetCode</span>
-            </a>
-          </MagneticWrapper>
+  
           
           <MagneticWrapper>
             <a
