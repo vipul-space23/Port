@@ -1,4 +1,4 @@
-const GeometricTechBackground = () => {
+const StarOrbitBackground = () => {
   return (
     <div className="fixed inset-0 pointer-events-none z-0 w-full h-full bg-black">
       {/* 1. The Main Plain Background */}
@@ -20,4 +20,4 @@ const GeometricTechBackground = () => {
   );
 };
 
-export default GeometricTechBackground;
+export default StarOrbitBackground;
