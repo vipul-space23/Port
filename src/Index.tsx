@@ -7,7 +7,6 @@ import ProjectsSection from '@/components/sections/ProjectsSection';
 import CertificationsSection from '@/components/sections/CertificationsSection';
 import ExperienceSection from '@/components/sections/ExperienceSection';
 import ContactSection from '@/components/sections/ContactSection';
-import StarOrbitBackground from '@/components/backgrounds/StarOrbitBackground';
 import MazeGame from '@/components/MazeGame';
 import AchievementsSection from '@/components/sections/AchievementsSection';
 
@@ -29,8 +28,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-      <StarOrbitBackground />
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden selection:bg-primary selection:text-black">
       <Navbar onZenMode={() => setZenMode(true)} />
       
       <main className="relative z-10">

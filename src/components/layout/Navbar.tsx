@@ -13,7 +13,7 @@ const navLinks = [
   { href: '#home', label: 'Home' },
   { href: '#about', label: 'About' },
   { href: '#projects', label: 'Projects' },
-  { href: '#certifications', label: 'Certs' },
+  { href: '#achievements', label: 'Certs' },
   { href: '#experience', label: 'Experience' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -80,7 +80,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
       initial="hidden"
       animate="visible"
       variants={navContainerVariants}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-in-out ${
         scrolled 
           ? 'py-3 px-4 md:px-8 top-4' // Floating island style on scroll
           : 'py-6 px-4 md:px-0' 
@@ -89,7 +89,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
       <div 
         className={`mx-auto flex items-center justify-between transition-all duration-500 ${
           scrolled 
-            ? 'container max-w-5xl bg-gray-900/60 backdrop-blur-xl border border-white/10 rounded-full pl-6 pr-2 shadow-2xl shadow-primary/5' 
+            ? 'container max-w-5xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-xl border border-slate-300/50 dark:border-white/10 rounded-full pl-6 pr-2 shadow-2xl shadow-slate-300/20 dark:shadow-primary/5' 
             : 'container bg-transparent'
         }`}
       >
@@ -98,6 +98,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
           href="#home" 
           onClick={(e) => handleSmoothScroll(e, '#home')}
           className="relative font-mono text-xl font-bold group flex items-center gap-1"
+          style={{ fontFamily: "'Poppins', sans-serif" }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -117,14 +118,17 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
                 href={link.href}
                 onClick={(e) => handleSmoothScroll(e, link.href)}
                 className={`relative px-4 py-2 text-xs font-mono font-medium tracking-wide transition-colors ${
-                  isActive ? 'text-primary-foreground' : 'text-muted-foreground hover:text-primary'
+                  isActive 
+                    ? 'text-white dark:text-black' 
+                    : 'text-slate-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
                 }`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {/* The "Floating Pill" Background */}
                 {isActive && (
                   <motion.div
                     layoutId="activePill"
-                    className="absolute inset-0 bg-primary rounded-full -z-10"
+                    className="absolute inset-0 bg-slate-900 dark:bg-white rounded-full -z-10"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -140,7 +144,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
                 variant="zen" 
                 size="sm" 
                 onClick={onZenMode} 
-                className="rounded-full gap-2 border border-white/5 bg-white/5 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all"
+                className="rounded-full gap-2 border border-slate-300 dark:border-white/20 bg-slate-200/80 dark:bg-white/10 hover:bg-primary/20 dark:hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all text-slate-800 dark:text-white font-medium"
             >
                 <Gamepad2 className="h-4 w-4" />
                 <span className="text-xs font-mono">ZEN</span>
@@ -153,7 +157,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
                 variant="ghost" 
                 size="icon" 
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="text-foreground hover:bg-white/10 rounded-full"
+                className="text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-white/10 rounded-full"
             >
                 {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -170,7 +174,7 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden overflow-hidden mx-4 mt-2"
           >
-            <div className="bg-gray-900/90 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-xl">
+            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-slate-300/50 dark:border-white/10 rounded-2xl p-4 shadow-xl">
               <div className="flex flex-col gap-1">
                 {navLinks.map((link, i) => (
                   <motion.a
@@ -182,9 +186,10 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
                     onClick={(e) => handleSmoothScroll(e, link.href)}
                     className={`block px-4 py-3 rounded-xl font-mono text-sm transition-colors ${
                        activeSection === link.href.substring(1)
-                       ? 'bg-primary/20 text-primary font-bold border border-primary/20' 
-                       : 'text-muted-foreground hover:bg-white/5 hover:text-white'
+                       ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-bold' 
+                       : 'text-slate-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-black dark:hover:text-white'
                     }`}
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {link.label}
                   </motion.a>
@@ -194,13 +199,13 @@ const Navbar = ({ onZenMode }: NavbarProps) => {
                     initial={{ opacity: 0 }} 
                     animate={{ opacity: 1 }} 
                     transition={{ delay: 0.3 }}
-                    className="mt-4 pt-4 border-t border-white/10"
+                    className="mt-4 pt-4 border-t border-slate-300 dark:border-white/10"
                 >
                     <Button 
                         variant="zen" 
                         size="sm" 
                         onClick={() => { onZenMode(); setMobileOpen(false); }} 
-                        className="w-full justify-center gap-2"
+                        className="w-full justify-center gap-2 bg-slate-200 dark:bg-white/10 hover:bg-primary/20 dark:hover:bg-primary/20 text-slate-800 dark:text-white border border-slate-300 dark:border-white/20 font-medium"
                     >
                         <Gamepad2 className="h-4 w-4" />
                         Enter Zen Mode

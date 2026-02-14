@@ -1,5 +1,5 @@
-/* 1. Added 'Outfit' to the import URL */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+/* Professional Fonts - Inter for body, Poppins for headings, JetBrains Mono for code */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -85,57 +85,40 @@
     text-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3);
   }
 
-  .box-glow {
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.3), 0 0 60px hsl(var(--primary) / 0.1);
+  /* Minimalist Design Utilities */
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
 
-  .border-glow {
-    border-color: hsl(var(--primary) / 0.5);
-    box-shadow: 0 0 15px hsl(var(--primary) / 0.2);
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--glow-green)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .text-huge {
+    font-size: clamp(3rem, 8vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
   }
 
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+  /* Animations for clean reveals */
+  .animate-reveal {
+    animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .glass {
     background: hsl(var(--card) / 0.8);
     backdrop-filter: blur(12px);
     border: 1px solid hsl(var(--border) / 0.5);
-  }
-
-  .noise-overlay {
-    position: relative;
-  }
-
-  .noise-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 1;
   }
 }
