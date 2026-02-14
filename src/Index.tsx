@@ -9,6 +9,7 @@ import ExperienceSection from '@/components/sections/ExperienceSection';
 import ContactSection from '@/components/sections/ContactSection';
 import MazeGame from '@/components/MazeGame';
 import AchievementsSection from '@/components/sections/AchievementsSection';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 const Index = () => {
   const [zenMode, setZenMode] = useState(false);
@@ -28,8 +29,9 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-hidden selection:bg-primary selection:text-black">
+    <div className="min-h-screen bg-background text-foreground relative selection:bg-primary selection:text-black">
       <Navbar onZenMode={() => setZenMode(true)} />
+      <ThemeToggle />
       
       <main className="relative z-10">
         <HeroSection />

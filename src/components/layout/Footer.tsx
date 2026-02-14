@@ -81,9 +81,8 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-300 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-700 dark:text-gray-400 text-sm flex items-center gap-1">
-            © {currentYear} Vipul Patil. Made with 
-            <Heart className="h-4 w-4 text-red-500 fill-current animate-pulse" />
-            and lots of coffee
+            © {currentYear} Made with 
+              AntiGravity by Google
           </p>
           <p className="text-slate-600 dark:text-gray-500 text-xs font-mono">
             Designed & Built by Vipul Patil

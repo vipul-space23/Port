@@ -67,9 +67,15 @@ const projects: Project[] = [
   },
 ];
 
-const ProjectCard = ({ project }: { project: Project }) => {
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   return (
-    <div className="group relative bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group relative bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    >
       
       {/* Project Image */}
       {project.image && (
@@ -140,7 +146,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -167,10 +173,29 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+          {projects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
+
+        {/* More Projects Link */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="flex justify-center mt-16"
+        >
+          <a 
+            href="https://github.com/vipul-space23?tab=repositories" 
+            target="_blank" 
+            rel="noreferrer"
+            className="flex items-center gap-2 text-lg font-mono text-slate-600 dark:text-gray-400 hover:text-primary transition-colors group"
+          >
+            <span>For more projects go to GitHub</span>
+            <Github className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </a>
+        </motion.div>
 
       </div>
     </section>

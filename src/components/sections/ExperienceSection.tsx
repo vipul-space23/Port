@@ -62,10 +62,17 @@ const ExperienceSection = () => {
                   </p>
                   <ul className="space-y-3">
                     {exp.achievements.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-slate-600 dark:text-gray-400">
+                      <motion.li 
+                        key={i} 
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 + (i * 0.1) }}
+                        className="flex items-start gap-3 text-slate-600 dark:text-gray-400"
+                      >
                         <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary/50 shrink-0" />
                         <span className="leading-relaxed">{item}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 </div>

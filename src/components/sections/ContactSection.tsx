@@ -39,17 +39,28 @@ const ContactSection = () => {
         </motion.div>
 
         <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 text-left max-w-4xl mx-auto justify-items-center">
-             <div className="flex flex-col gap-2">
+             <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               transition={{ delay: 0.4 }}
+               className="flex flex-col gap-2"
+             >
                 <span className="font-mono text-xs uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-2">Socials</span>
                 <a href="https://linkedin.com/in/vipul-space" className="text-lg hover:text-primary transition-colors">LinkedIn</a>
                 <a href="https://github.com/vipul-space23" className="text-lg hover:text-primary transition-colors">GitHub</a>
-                <a href="https://instagram.com" className="text-lg hover:text-primary transition-colors">Instagram</a>
-             </div>
+             </motion.div>
              
-             <div className="flex flex-col gap-2">
+             <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               transition={{ delay: 0.5 }}
+               className="flex flex-col gap-2"
+             >
                 <span className="font-mono text-xs uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-2">Location</span>
                 <p className="text-lg">Mumbai, India</p>
-             </div>
+             </motion.div>
         </div>
 
       </div>

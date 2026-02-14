@@ -7,28 +7,33 @@ import {
 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-// --- THEME TOGGLE (Minimal) ---
-const ThemeToggle = () => {
-  const [theme, setTheme] = useState('dark');
-
+const Typewriter = ({ text, speed = 50, delay = 1000 }: { text: string[], speed?: number, delay?: number }) => {
+  const [currentText, setCurrentText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  
   useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-  }, [theme]);
+    const timeout = setTimeout(() => {
+      const currentString = text[currentIndex];
+      
+      if (isDeleting) {
+        setCurrentText(currentString.substring(0, currentText.length - 1));
+      } else {
+        setCurrentText(currentString.substring(0, currentText.length + 1));
+      }
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
+      if (!isDeleting && currentText === currentString) {
+        setTimeout(() => setIsDeleting(true), delay);
+      } else if (isDeleting && currentText === '') {
+        setIsDeleting(false);
+        setCurrentIndex((prev) => (prev + 1) % text.length);
+      }
+    }, isDeleting ? speed / 2 : speed);
 
-  return (
-    <button 
-      onClick={toggleTheme}
-      className="fixed top-6 right-6 z-50 w-8 h-8 rounded-full border border-current opacity-50 hover:opacity-100 transition-opacity flex items-center justify-center mix-blend-difference text-white"
-    >
-      <div className={`w-3 h-3 rounded-full bg-current ${theme === 'dark' ? 'opacity-0' : 'opacity-100'} transition-all`} />
-    </button>
-  );
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, currentIndex, text, speed, delay]);
+
+  return <span>{currentText}<span className="animate-pulse">|</span></span>;
 };
 
 const HeroSection = () => {
@@ -43,7 +48,7 @@ const HeroSection = () => {
 
   return (
     <section ref={containerRef} id="home" className="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-20 relative overflow-hidden">
-      <ThemeToggle />
+
 
       {/* Background Ambience */}
       <div className="absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
@@ -60,28 +65,54 @@ const HeroSection = () => {
           className="flex items-center gap-4 mb-8 md:mb-12"
         >
           <div className="h-[1px] w-12 bg-current opacity-30" />
-          <span className="font-mono text-sm tracking-widest uppercase opacity-60">Full Stack Developer</span>
+          <span className="font-mono text-sm tracking-widest uppercase opacity-60 h-6 block min-w-[200px]">
+            <Typewriter 
+              text={["Full Stack Developer", "AI/ML Specialist", "Aspiring DevOps"]} 
+              speed={70}
+              delay={2000} 
+            />
+          </span>
         </motion.div>
 
-        {/* Main Title - Huge Typography */}
-        <div className="flex flex-col">
-          <motion.h1 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="text-huge font-bold leading-[0.85] tracking-tighter"
-          >
-            VIPUL PATIL
-          </motion.h1>
-          <motion.h1 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="text-huge font-bold leading-[0.85] tracking-tighter text-outline transparent-fill opacity-80"
+        {/* Main Title - Huge Typography with Staggered Animation */}
+        <div className="flex flex-col relative z-20 text-foreground">
+          <h1 className="text-huge font-bold leading-[0.85] tracking-tighter flex overflow-hidden">
+            {Array.from("VIPUL PATIL").map((letter, index) => (
+              <motion.span
+                key={index}
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                transition={{ 
+                  duration: 1, 
+                  ease: [0.33, 1, 0.68, 1],
+                  delay: index * 0.05 
+                }}
+                className="inline-block"
+              >
+                {letter === " " ? "\u00A0" : letter}
+              </motion.span>
+            ))}
+          </h1>
+          <h1 
+            className="text-huge font-bold leading-[0.85] tracking-tighter text-outline transparent-fill opacity-50 absolute top-0 left-0 blur-sm select-none pointer-events-none"
             style={{ WebkitTextStroke: '1px currentColor', color: 'transparent' }}
           >
-            PATIL
-          </motion.h1>
+             {Array.from("VIPUL PATIL").map((letter, index) => (
+              <motion.span
+                key={index}
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                transition={{ 
+                  duration: 1, 
+                  ease: [0.33, 1, 0.68, 1],
+                  delay: index * 0.05 + 0.1
+                }}
+                className="inline-block"
+              >
+                {letter === " " ? "\u00A0" : letter}
+              </motion.span>
+            ))}
+          </h1>
         </div>
 
         {/* Description & CTA */}
@@ -93,7 +124,8 @@ const HeroSection = () => {
             className="md:col-span-6 text-lg md:text-xl leading-relaxed opacity-80"
           >
             <p>
-              Structuring the chaos of the web. I build scalable systems and 
+              Structuring the chaos of the web. <br className="block md:hidden" />
+              I build scalable systems and <br className="hidden md:block" />
               immersive digital experiences.
             </p>
           </motion.div>

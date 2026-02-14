@@ -10,7 +10,7 @@ const skills = [
   },
   {
     category: "Frameworks & Libs",
-    items: ["React.js", "FastAPI", "Node.js", "Express", "Flask"]
+    items: ["React.js", "FastAPI", "Node.js", "Express", "Flask", "FastAPI"]
   },
   {
     category: "Databases",
