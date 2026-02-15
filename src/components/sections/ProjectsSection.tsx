@@ -77,9 +77,20 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       className="group relative bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/10 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
       
+      {/* Stretched Link for Card Clickability */}
+      {project.github && (
+        <a 
+          href={project.github}
+          target="_blank"
+          rel="noreferrer"
+          className="absolute inset-0 z-0"
+          aria-label={`View ${project.title} on GitHub`}
+        />
+      )}
+      
       {/* Project Image */}
       {project.image && (
-        <div className="relative h-48 bg-slate-100 dark:bg-neutral-800 overflow-hidden">
+        <div className="relative h-48 bg-slate-100 dark:bg-neutral-800 overflow-hidden pointer-events-none">
           <img 
             src={project.image} 
             alt={project.title}
@@ -97,7 +108,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       )}
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 pointer-events-none">
         <h3 className="text-2xl font-bold font-mono mb-2 group-hover:text-primary transition-colors" style={{ fontFamily: "'Poppins', sans-serif" }}>
           {project.title}
         </h3>
@@ -121,7 +132,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         </div>
 
         {/* Links */}
-        <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10">
+        <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10 relative z-10 pointer-events-auto">
           {project.github && (
             <a 
               href={project.github} 
@@ -192,7 +203,7 @@ const ProjectsSection = () => {
             rel="noreferrer"
             className="flex items-center gap-2 text-lg font-mono text-slate-600 dark:text-gray-400 hover:text-primary transition-colors group"
           >
-            <span>For more projects go to GitHub</span>
+            <span>Discover what else I’m building</span>
             <Github className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>
