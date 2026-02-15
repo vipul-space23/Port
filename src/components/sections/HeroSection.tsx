@@ -36,6 +36,10 @@ const Typewriter = ({ text, speed = 50, delay = 1000 }: { text: string[], speed?
   return <span>{currentText}<span className="animate-pulse">|</span></span>;
 };
 
+import HeroImage from '@/components/ui/HeroImage';
+
+// ... (keep Typewriter component as is)
+
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -85,90 +89,128 @@ const HeroSection = () => {
         ))}
       </div>
       
-      <motion.div 
-        style={{ y, opacity }}
-        className="max-w-7xl mx-auto w-full z-10"
-      >
-        {/* Header / Status */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex items-center gap-4 mb-8 md:mb-12"
-        >
-          <div className="h-[1px] w-12 bg-current opacity-30" />
-          <span className="font-mono text-sm tracking-widest uppercase opacity-60 h-6 block min-w-[200px]">
-            <Typewriter 
-              text={["Full Stack Developer", "AI/ML Specialist", "Aspiring DevOps"]} 
-              speed={70}
-              delay={2000} 
-            />
-          </span>
-        </motion.div>
-
-        {/* Main Title - Huge Typography with Staggered Animation */}
-        <div className="flex flex-col relative z-20 text-foreground">
-          <h1 className="text-huge font-bold leading-[0.85] tracking-tighter flex overflow-hidden">
-            {Array.from("VIPUL PATIL").map((letter, index) => (
-              <motion.span
-                key={index}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ 
-                  duration: 1, 
-                  ease: [0.33, 1, 0.68, 1],
-                  delay: index * 0.05 
-                }}
-                className="inline-block"
-              >
-                {letter === " " ? "\u00A0" : letter}
-              </motion.span>
-            ))}
-          </h1>
-          <h1 
-            className="text-huge font-bold leading-[0.85] tracking-tighter text-outline transparent-fill opacity-50 absolute top-0 left-0 blur-sm select-none pointer-events-none"
-            style={{ WebkitTextStroke: '1px currentColor', color: 'transparent' }}
+      <div className="max-w-7xl mx-auto w-full z-10 flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 items-center">
+        
+        {/* Left Column: Text Content */}
+        <motion.div style={{ y, opacity }} className="flex flex-col">
+          {/* Header / Status */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex items-center gap-4 mb-8 md:mb-12"
           >
-             {Array.from("VIPUL PATIL").map((letter, index) => (
-              <motion.span
-                key={index}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ 
-                  duration: 1, 
-                  ease: [0.33, 1, 0.68, 1],
-                  delay: index * 0.05 + 0.1
-                }}
-                className="inline-block"
-              >
-                {letter === " " ? "\u00A0" : letter}
-              </motion.span>
-            ))}
-          </h1>
-        </div>
+            <div className="h-[1px] w-12 bg-current opacity-30" />
+            <span className="font-mono text-sm tracking-widest uppercase opacity-60 h-6 block min-w-[200px]">
+              <Typewriter 
+                text={["Full Stack Developer", "AI/ML Specialist", "Aspiring DevOps"]} 
+                speed={70}
+                delay={2000} 
+              />
+            </span>
+          </motion.div>
 
-        {/* Description & CTA */}
-        <div className="mt-12 md:mt-16 grid md:grid-cols-12 gap-8 items-start">
+          {/* Main Title - Huge Typography with Staggered Animation */}
+          <div className="flex flex-col relative z-20 text-foreground mb-8">
+            <h1 className="text-huge font-bold leading-[0.85] tracking-tighter flex flex-col overflow-hidden">
+              <span className="flex">
+                {Array.from("VIPUL").map((letter, index) => (
+                  <motion.span
+                    key={`line1-${index}`}
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ 
+                      duration: 1, 
+                      ease: [0.33, 1, 0.68, 1],
+                      delay: index * 0.05 
+                    }}
+                    className="inline-block"
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </span>
+              <span className="flex">
+                {Array.from("PATIL").map((letter, index) => (
+                  <motion.span
+                    key={`line2-${index}`}
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ 
+                      duration: 1, 
+                      ease: [0.33, 1, 0.68, 1],
+                      delay: (index + 5) * 0.05 
+                    }}
+                    className="inline-block"
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+            
+            <div 
+              className="text-huge font-bold leading-[0.85] tracking-tighter text-outline transparent-fill opacity-50 absolute top-0 left-0 blur-sm select-none pointer-events-none flex flex-col"
+              style={{ WebkitTextStroke: '1px currentColor', color: 'transparent' }}
+            >
+              <span className="flex">
+               {Array.from("VIPUL").map((letter, index) => (
+                <motion.span
+                  key={`outline-line1-${index}`}
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  transition={{ 
+                    duration: 1, 
+                    ease: [0.33, 1, 0.68, 1],
+                    delay: index * 0.05 + 0.1
+                  }}
+                  className="inline-block"
+                >
+                  {letter}
+                </motion.span>
+              ))}
+              </span>
+              <span className="flex">
+               {Array.from("PATIL").map((letter, index) => (
+                <motion.span
+                  key={`outline-line2-${index}`}
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  transition={{ 
+                    duration: 1, 
+                    ease: [0.33, 1, 0.68, 1],
+                    delay: (index + 5) * 0.05 + 0.1
+                  }}
+                  className="inline-block"
+                >
+                  {letter}
+                </motion.span>
+              ))}
+              </span>
+            </div>
+          </div>
+
+          {/* Description */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="md:col-span-6 text-lg md:text-xl leading-relaxed opacity-80"
+            className="text-lg md:text-xl leading-relaxed opacity-80 mb-8 max-w-lg"
           >
             <p>
-              Structuring the chaos of the web. <br className="block md:hidden" />
-              I build scalable systems and <br className="hidden md:block" />
+              Structuring the chaos of the web. 
+              I build scalable systems and 
               immersive digital experiences.
             </p>
           </motion.div>
 
+          {/* Social Links */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="md:col-span-6 flex flex-wrap gap-6 md:justify-end items-center"
+            className="flex flex-wrap gap-6 items-center"
           >
-             {/* Simple Links */}
              <a href="https://github.com/vipul-space23" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group">
                 <Github className="w-5 h-5" />
                 <span className="relative overflow-hidden">
@@ -191,8 +233,30 @@ const HeroSection = () => {
                 </span>
              </a>
           </motion.div>
-        </div>
-      </motion.div>
+        </motion.div>
+
+        {/* Right Column: Hero Image */}
+        <motion.div
+           initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
+           animate={{ opacity: 1, scale: 1, rotate: 0 }}
+           transition={{ duration: 1, delay: 0.4, ease: "backOut" }}
+           className="flex justify-center w-full"
+        >
+          {/* 
+            ADJUST YOUR IMAGE HERE:
+            - imgX: Move image left/right (negative = left, positive = right)
+            - imgY: Move image up/down (negative = up, positive = down)
+            - imgScale: Zoom image (1 = normal, 1.2 = 20% zoom in)
+          */}
+          <HeroImage 
+            className="w-full max-w-[500px]" 
+            imgX={15} 
+            imgY={-20}
+            imgScale={1.0}
+          />
+        </motion.div>
+
+      </div>
 
       {/* Scroll Indicator */}
       <motion.div 
