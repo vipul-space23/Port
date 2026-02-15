@@ -1,24 +1,52 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Code2, Cloud, Database, Wrench } from 'lucide-react';
+import { 
+  FaJava, FaPython, FaHtml5, FaCss3Alt, FaReact, FaNodeJs, FaAws, FaDocker, FaGithub, FaLinux 
+} from 'react-icons/fa';
+import { 
+  SiJavascript, SiGnubash, SiExpress, SiFlask, SiFastapi, SiMysql, SiMongodb, SiKubernetes 
+} from 'react-icons/si';
+import { GraduationCap } from 'lucide-react';
 
 const skills = [
   {
     category: "Languages",
-    items: ["Java", "Python", "JavaScript", "HTML5", "CSS3", "Shell Scripting"]
+    items: [
+      { name: "Java", icon: FaJava },
+      { name: "Python", icon: FaPython },
+      { name: "JavaScript", icon: SiJavascript },
+      { name: "HTML5", icon: FaHtml5 },
+      { name: "CSS3", icon: FaCss3Alt },
+      { name: "Shell Scripting", icon: SiGnubash }
+    ]
   },
   {
     category: "Frameworks & Libs",
-    items: ["React.js", "FastAPI", "Node.js", "Express", "Flask", "FastAPI"]
+    items: [
+      { name: "React.js", icon: FaReact },
+      { name: "Node.js", icon: FaNodeJs },
+      { name: "Express", icon: SiExpress },
+      { name: "Flask", icon: SiFlask },
+      { name: "FastAPI", icon: SiFastapi }
+    ]
   },
   {
     category: "Databases",
-    items: ["MySQL", "MongoDB"]
+    items: [
+      { name: "MySQL", icon: SiMysql },
+      { name: "MongoDB", icon: SiMongodb }
+    ]
   },
   {
     category: "DevOps & Tools",
-    items: ["AWS", "Docker", "Git", "GitHub", "Kubernetes", "Linux", "Terraform"]
+    items: [
+      { name: "AWS", icon: FaAws },
+      { name: "Docker", icon: FaDocker },
+      { name: "GitHub", icon: FaGithub },
+      { name: "Kubernetes", icon: SiKubernetes },
+      { name: "Linux", icon: FaLinux }
+    ]
   }
 ];
 
@@ -60,25 +88,42 @@ const AboutSection = () => {
               </p>
             </motion.div>
 
-            {/* Education Block - Card Style */}
+            {/* Education Block - Professional Redesign */}
             <motion.div 
                initial={{ opacity: 0, scale: 0.95 }}
                whileInView={{ opacity: 1, scale: 1 }}
                viewport={{ once: true }}
                transition={{ delay: 0.4 }}
-               className="mt-12 p-6 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-white/20 rounded-lg"
+               className="mt-12 p-8 bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-2xl relative overflow-hidden group hover:border-primary/20 transition-colors"
             >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <span className="font-mono text-xs uppercase tracking-widest text-primary mb-2 block">Education</span>
-                    <h3 className="text-lg font-bold mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>Bachelor of Engineering in Information Technology</h3>
-                    <p className="text-slate-500 dark:text-gray-400 text-sm">Datta Meghe College of Engineering, Airoli</p>
-                  </div>
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                   <GraduationCap className="w-24 h-24" />
                 </div>
-                <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-white/10">
-                  <span className="text-sm text-slate-500 dark:text-gray-400">2022 - 2026</span>
-                  <div className="px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
-                    <span className="font-mono text-sm font-bold text-primary">CGPA: 7.89</span>
+
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      <GraduationCap className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <span className="font-mono text-xs uppercase tracking-widest text-primary mb-1 block">Education</span>
+                      <h3 className="text-xl md:text-2xl font-bold leading-tight" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                        Bachelor of Engineering in <br /> Information Technology
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  <p className="text-slate-600 dark:text-gray-400 mb-6 pl-16">
+                    Datta Meghe College of Engineering, Airoli
+                  </p>
+
+                  <div className="flex flex-wrap gap-4 pl-16">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm font-semibold text-slate-600 dark:text-gray-300" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      <span>2022 - 2026</span>
+                    </div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-sm font-bold text-primary" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      <span>CGPA: 7.89</span>
+                    </div>
                   </div>
                 </div>
             </motion.div>
@@ -101,10 +146,11 @@ const AboutSection = () => {
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((item) => (
                       <span 
-                        key={item} 
-                        className="px-3 py-1.5 bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-gray-300 text-sm rounded hover:bg-slate-200 dark:hover:bg-white/10 transition-colors cursor-default"
+                        key={item.name} 
+                        className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-gray-300 text-sm rounded hover:bg-slate-200 dark:hover:bg-white/10 transition-colors cursor-default group"
                       >
-                        {item}
+                        <item.icon className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />
+                        {item.name}
                       </span>
                     ))}
                   </div>

@@ -102,7 +102,7 @@ const AchievementsSection = () => {
         >
           <span className="font-mono text-sm tracking-widest uppercase text-slate-400 dark:text-gray-500 mb-2 block">Certifications</span>
           <h2 className="text-4xl md:text-5xl font-bold leading-none tracking-tight" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Verified <span className="text-primary">Skills</span>
+            <span className="text-primary">Professional Certifications</span>
           </h2>
         </motion.div>
 

@@ -15,8 +15,8 @@ const ContactSection = () => {
            viewport={{ once: true }}
            className="mb-12"
         >
-          <h2 className="text-huge font-bold leading-none tracking-tighter mb-8">
-            LET'S <br /> TALK
+          <h2 className="text-huge font-bold leading-none tracking-tighter mb-8" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            Turning Ideas <br /> into Reality.
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
             Have an idea? A project? Or just want to say hi?
@@ -31,7 +31,7 @@ const ContactSection = () => {
         >
           <a 
             href="mailto:vipulpatil2500@gmail.com" 
-            className="inline-flex items-center gap-4 text-3xl md:text-5xl font-bold hover:text-primary transition-colors border-b-2 border-current pb-2 group"
+            className="inline-flex items-center gap-2 sm:gap-4 text-lg sm:text-3xl md:text-5xl font-bold hover:text-primary transition-colors border-b-2 border-current pb-2 group flex-wrap justify-center break-all sm:break-normal"
           >
             vipulpatil2500@gmail.com
             <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12 transition-transform duration-300 group-hover:-translate-y-2 group-hover:translate-x-2" />
@@ -59,7 +59,7 @@ const ContactSection = () => {
                className="flex flex-col gap-2"
              >
                 <span className="font-mono text-xs uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-2">Location</span>
-                <p className="text-lg">Mumbai, India</p>
+                <p className="text-lg">Navi Mumbai, India</p>
              </motion.div>
         </div>
 

@@ -30,7 +30,7 @@ const ExperienceSection = () => {
           className="mb-20"
         >
           <span className="font-mono text-sm tracking-widest uppercase text-slate-400 dark:text-gray-500 mb-2 block">Career</span>
-          <h2 className="text-4xl md:text-6xl font-bold leading-none tracking-tight">Experience</h2>
+          <h2 className="text-4xl md:text-6xl font-bold leading-none tracking-tight" style={{ fontFamily: "'Poppins', sans-serif" }}>Experience</h2>
         </motion.div>
 
         <div className="relative border-l border-slate-200 dark:border-white/10 ml-3 md:ml-6 space-y-16">

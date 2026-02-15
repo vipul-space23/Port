@@ -164,7 +164,7 @@ const ProjectsSection = () => {
         >
           <span className="font-mono text-sm tracking-widest uppercase text-slate-400 dark:text-gray-500 mb-2 block">Work</span>
           <h2 className="text-4xl md:text-6xl font-bold leading-none tracking-tight mb-6" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Selected <span className="text-primary">Projects</span>
+             <span className="text-primary">Projects</span>
           </h2>
           <p className="text-lg text-slate-600 dark:text-gray-400 max-w-2xl">
             A showcase of my work in full-stack development, blockchain, and AI/ML.

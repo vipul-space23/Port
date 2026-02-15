@@ -51,7 +51,39 @@ const HeroSection = () => {
 
 
       {/* Background Ambience */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] dark:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] pointer-events-none z-0 opacity-30" />
       <div className="absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      {/* Floating Code Symbols */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[
+          { text: '{}', top: '20%', left: '10%', delay: 0 },
+          { text: '</>', top: '60%', left: '85%', delay: 1.5 },
+          { text: '01', top: '15%', left: '80%', delay: 3 },
+          { text: '!=', top: '70%', left: '15%', delay: 2 },
+          { text: '//', top: '40%', left: '5%', delay: 1 },
+          { text: '[]', top: '85%', left: '60%', delay: 2.5 },
+        ].map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ 
+              y: [-10, 10, -10], 
+              opacity: [0.1, 0.3, 0.1] 
+            }}
+            transition={{ 
+              duration: 5 + i, 
+              repeat: Infinity, 
+              delay: item.delay,
+              ease: "easeInOut" 
+            }}
+            style={{ top: item.top, left: item.left, position: 'absolute' }}
+            className="font-mono text-4xl md:text-6xl font-bold text-primary/10 select-none z-0"
+          >
+            {item.text}
+          </motion.div>
+        ))}
+      </div>
       
       <motion.div 
         style={{ y, opacity }}
@@ -169,8 +201,7 @@ const HeroSection = () => {
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-10 left-6 md:left-12 flex items-center gap-4 opacity-50"
       >
-        <ArrowDown className="w-5 h-5 animate-bounce" />
-        <span className="font-mono text-xs uppercase tracking-widest">Scroll</span>
+        <span className="font-mono text-xs uppercase tracking-widest"></span>
       </motion.div>
     </section>
   );
