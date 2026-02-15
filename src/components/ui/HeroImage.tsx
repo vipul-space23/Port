@@ -51,7 +51,7 @@ const HeroImage = ({
 
         <text className="text-[10px] font-bold uppercase tracking-[1.5px] fill-current text-slate-900 dark:text-white opacity-80 mix-blend-difference">
           <textPath href="#textPath" startOffset="0%">
-             LEARN &gt;&gt; BUILD — IMPROVE — REPEAT — LEARN — BUILD — IMPROVE — REPEAT 
+             LEARN — BUILD — IMPROVE — REPEAT — LEARN — BUILD — IMPROVE — REPEAT 
             <animate attributeName="startOffset" from="0%" to="100%" dur="20s" repeatCount="indefinite" />
           </textPath>
         </text>
