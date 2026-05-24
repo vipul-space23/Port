@@ -28,7 +28,7 @@ const HeroImage = ({
 
         {/* The Blob with Image */}
         <image
-          href="/assets/hero-profile.jpg"
+          href="/assets/hero-profile.png"
           width="200"
           height="200"
           x={imgX}
