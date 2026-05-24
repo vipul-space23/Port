@@ -7,7 +7,7 @@ const experiences = [
   {
     role: "AI/ML Intern",
     company: "ACPL Pvt. Ltd.",
-    period: "Jan 2026 - Present",
+    period: "Jan 2026 - Apr 2026",
     description: "Developing AI/ML solutions focused on document processing automation and intelligent chatbot systems for internal operations.",
     achievements: [
       "Built and managed labeled datasets using LabelImg, improving model training accuracy for production deployment.",
